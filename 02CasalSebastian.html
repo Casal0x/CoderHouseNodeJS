@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" value="" id="entrada" />
+    <br />
+    <h3 id="salida"></h3>
+
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/rxjs@%5E7/dist/bundles/rxjs.umd.min.js"
+    ></script>
+    <script type="text/javascript">
+      const { Observable, map } = rxjs;
+
+      function reverseString(str) {
+        return str.split("").reverse().join("");
+      }
+
+      window.onload = function () {
+        const input = document.getElementById("entrada");
+        const output = document.getElementById("salida");
+
+        const customObservable = new Observable((observable) => {
+          let salida;
+          input.addEventListener("input", (e) => {
+            if (input.value == "error") observable.error("Escribiste Error");
+            if (input.value == "complete") observable.complete();
+            observable.next(e.data);
+          });
+        });
+
+        const nextFnc = (data) => {
+          output.innerHTML = data;
+        };
+
+        const completeFnc = () => {
+          console.log("Se completo la tarea");
+          input.disabled = true;
+          input.value = "";
+          output.innerHTML = "";
+          newObs.unsubscribe();
+        };
+
+        const errorFnc = (msg) => {
+          console.log(`Ocurrio un error: ${msg}`);
+          input.disabled = true;
+          input.value = "";
+          output.innerHTML = "";
+          newObs.unsubscribe();
+        };
+
+        const newObs = customObservable
+          .pipe(
+            map((value) => {
+              if (value == null) {
+                return output.innerText.substring(1);
+              } else {
+                let newVal = reverseString(output.innerText);
+                newVal += value;
+                newVal = reverseString(newVal);
+                return newVal;
+              }
+            })
+          )
+          .subscribe({
+            next: nextFnc,
+            error: errorFnc,
+            complete: completeFnc,
+          });
+
+        setTimeout(() => {
+          console.log("Se quedo sin tiempo");
+          newObs.unsubscribe();
+        }, 10000);
+      };
+    </script>
+  </body>
+</html>
