@@ -1,4 +1,4 @@
-# EJERICICIOS DE CODEHOUSE CURSO NODEJS CLASE 08
+# EJERICICIOS DE CODEHOUSE CURSO NODEJS CLASE 10
 
 ## Como ejecutar el proyecto
 
@@ -14,4 +14,5 @@
 
 ## URL CON FORMULARIOS
 
-http://localhost:8080
+http://localhost:8080/productos/vista
+http://localhost:8080/productos/guardar
