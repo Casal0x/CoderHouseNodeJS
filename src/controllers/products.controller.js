@@ -99,15 +99,13 @@ prodCtrl.removeProductById = async (req, res) => {
 };
 
 prodCtrl.getView = async (req, res) => {
-  
   let products = await PRODUCTS.getProducts();
-  console.log(products)
 
-  res.render('products', {products});
-}
+  res.render('products', { products });
+};
 
 prodCtrl.addProductView = (req, res) => {
   res.render('addProduct');
-}
+};
 
 export default prodCtrl;

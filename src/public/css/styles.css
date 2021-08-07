@@ -1,27 +1,28 @@
 body {
-    background-color: #444;
-    color: white;
-    min-height: 100vh;
+  background-color: #444;
+  color: white;
+  min-height: 100vh;
 }
 
-.home-page div > ul{
-    list-style: none;
+.home-page div > ul {
+  list-style: none;
 }
 
 a {
-    color: #999;
-    text-decoration: none;
+  color: #999;
+  text-decoration: none;
 }
 
 a:hover {
-    color: #e46f66;
-    text-decoration: none;
+  color: #e46f66;
+  text-decoration: none;
 }
 
-.product-page .product-item {
-    vertical-align: middle;
+.product-item {
+  vertical-align: middle;
 }
 
-.product-page .product-img {
-    width: 40px;
+.product-img {
+  width: 40px;
+  height: 40px;
 }
