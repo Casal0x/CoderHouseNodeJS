@@ -48,7 +48,7 @@ prodCtrl.addProduct = async (req, res) => {
     }
 
     if (isWeb) {
-      res.redirect('/');
+      res.render('addProduct');
     } else {
       res.json(product);
     }
@@ -97,5 +97,17 @@ prodCtrl.removeProductById = async (req, res) => {
     res.json({ error: error.message });
   }
 };
+
+prodCtrl.getView = async (req, res) => {
+  
+  let products = await PRODUCTS.getProducts();
+  console.log(products)
+
+  res.render('products', {products});
+}
+
+prodCtrl.addProductView = (req, res) => {
+  res.render('addProduct');
+}
 
 export default prodCtrl;

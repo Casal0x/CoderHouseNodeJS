@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import exphbs from 'express-handlebars';
 import routes from './routes';
 
 const app = express();
@@ -7,12 +8,17 @@ const port = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, 'public')));
+
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 
 app.get('/', (req, res) =>
-  res.sendFile(path.resolve(__dirname, 'public/index.html'))
+  res.render('home')
 );
 
-app.use('/api', routes);
+app.use(routes);
 
 const server = app.listen(port, () =>
   console.log(`🚀 Server ready at http://localhost:${port}`)
