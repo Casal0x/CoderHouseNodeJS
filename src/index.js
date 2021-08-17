@@ -1,4 +1,6 @@
 import express from 'express';
+import http from 'http';
+import io from 'socket.io';
 import path from 'path';
 import routes from './routes';
 
@@ -12,11 +14,19 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
+const myServer = http.Server(app);
+const myWSServer = io(myServer);
+
+app.use((req, res, next) => {
+  req.io = myWSServer;
+  next();
+});
+
 app.get('/', (req, res) => res.render('home'));
 
 app.use(routes);
 
-const server = app.listen(port, () =>
+const server = myServer.listen(port, () =>
   console.log(`🚀 Server ready at http://localhost:${port}`)
 );
 

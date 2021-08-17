@@ -50,6 +50,10 @@ prodCtrl.addProduct = async (req, res) => {
     if (isWeb) {
       res.render('addProduct');
     } else {
+      if (body.ws) {
+        const products = await PRODUCTS.getProducts();
+        req.io.emit('products', products);
+      }
       res.json(product);
     }
   } catch (error) {
@@ -106,6 +110,12 @@ prodCtrl.getView = async (req, res) => {
 
 prodCtrl.addProductView = (req, res) => {
   res.render('addProduct');
+};
+
+prodCtrl.addProductViewWs = async (req, res) => {
+  let products = await PRODUCTS.getProducts();
+
+  res.render('addProductWithSockets', { products });
 };
 
 export default prodCtrl;

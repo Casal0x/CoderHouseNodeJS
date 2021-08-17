@@ -13,7 +13,7 @@ html(lang="es")
     header
       nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         .container
-          a.navbar-brand(href='#') CoderHouse
+          a.navbar-brand(href='/') CoderHouse
           button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
             span.navbar-toggler-icon
           #navbarSupportedContent.collapse.navbar-collapse
@@ -24,6 +24,8 @@ html(lang="es")
                 a.nav-link(href='/productos/vista') Productos
               li.nav-item
                 a.nav-link(href='/productos/guardar') Agregar Producto
+              li.nav-item
+                a.nav-link(href='/productos/guardarWS') Agregar Producto WebSockets
     main.container.pt-4
       block content
 

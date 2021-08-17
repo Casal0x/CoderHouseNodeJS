@@ -6,9 +6,9 @@ const router = Router();
 
 router.use('/api/productos', ProductRoutes);
 
-
 // Web Routes
 router.get('/productos/vista', prodCtrl.getView);
 router.get('/productos/guardar', prodCtrl.addProductView);
+router.get('/productos/guardarWs', prodCtrl.addProductViewWs);
 
 export default router;

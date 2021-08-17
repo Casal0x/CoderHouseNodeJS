@@ -1,4 +1,4 @@
-# EJERICICIOS DE CODEHOUSE CURSO NODEJS CLASE 10
+# EJERICICIOS DE CODEHOUSE CURSO NODEJS CLASE 12
 
 ## Como ejecutar el proyecto
 
@@ -16,3 +16,4 @@
 
 http://localhost:8080/productos/vista
 http://localhost:8080/productos/guardar
+http://localhost:8080/productos/guardarWS (este links es para el ejercicio de esta clase);
