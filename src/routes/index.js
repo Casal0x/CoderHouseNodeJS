@@ -11,4 +11,8 @@ router.get('/productos/vista', prodCtrl.getView);
 router.get('/productos/guardar', prodCtrl.addProductView);
 router.get('/productos/guardarWs', prodCtrl.addProductViewWs);
 
+router.get('/chat', (req, res) => {
+  res.render('chat');
+});
+
 export default router;

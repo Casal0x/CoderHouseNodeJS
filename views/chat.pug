@@ -1,0 +1,27 @@
+extends layouts/main.pug
+
+block content
+  .top-title.row.m-0.p-0
+    h2.col-10.p-0 Centro de Mensajes
+    button#disconnect-btn.d-none.col-2.p-0.btn.btn-danger Desconectarse
+  hr
+
+  #data.d-flex.justify-content-center.row
+    form#login-form.col-8.mt-5
+      h4.text-center Login
+      .mb-5.mt-3
+        label.form-label(for='email') Email
+        input.form-control(type='email' name='email' id='chat-email' placeholder="Escriba su email. Ej: correo@mail.com" required=true autocomplete="off" value="sebastian.casal@gmail.com")
+      button.btn.btn-primary(type='submit') Conectarse
+    #chat.d-none
+      div#chat-box.chat-box
+      div.form
+        form#chat-input.row
+          .col-10
+            input.form-control(type='text' name='message' id='chat-message' placeholder="Escribe un mensaje" required=true autocomplete="off")
+          button.btn.btn-primary.col-2(type='submit') Enviar
+
+
+block scripts
+  script(src="/socket.io/socket.io.js")
+  script(src="/js/chat.js")

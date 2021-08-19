@@ -3,16 +3,17 @@ import http from 'http';
 import io from 'socket.io';
 import path from 'path';
 import routes from './routes';
+import { initChat } from './models/Chat';
 
 const app = express();
 const port = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.resolve(__dirname, 'public')));
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../views'));
 
 const myServer = http.Server(app);
 const myWSServer = io(myServer);
@@ -31,3 +32,5 @@ const server = myServer.listen(port, () =>
 );
 
 server.on('error', () => console.log('Error del servidor'));
+
+initChat(myWSServer);
