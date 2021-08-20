@@ -1,4 +1,4 @@
-# EJERICICIOS DE CODEHOUSE CURSO NODEJS CLASE 13
+# EJERICICIOS DE CODEHOUSE CURSO NODEJS CLASE 14 Babel
 
 ## Como ejecutar el proyecto
 
@@ -12,7 +12,7 @@
 - dev: nodemon --exec babel-node src/index.js
 - build: babel src -d build
 
-## URL CON FORMULARIOS
+## ENDPOINTS
 
 - http://localhost:8080/productos/vista
 - http://localhost:8080/productos/guardar
