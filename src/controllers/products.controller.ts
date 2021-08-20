@@ -1,9 +1,10 @@
+import { Request, Response } from 'express'
 import Products from '../models/Products';
 
-const prodCtrl = {};
+const prodCtrl: any = {};
 const PRODUCTS = new Products([]);
 
-prodCtrl.getProducts = async (req, res) => {
+prodCtrl.getProducts = async (req: Request, res: Response) => {
   try {
     const products = await PRODUCTS.getProducts();
 
@@ -17,7 +18,7 @@ prodCtrl.getProducts = async (req, res) => {
   }
 };
 
-prodCtrl.getProductById = async (req, res) => {
+prodCtrl.getProductById = async (req: Request, res: Response) => {
   const {
     params: { id },
   } = req;
@@ -37,7 +38,7 @@ prodCtrl.getProductById = async (req, res) => {
   }
 };
 
-prodCtrl.addProduct = async (req, res) => {
+prodCtrl.addProduct = async (req: Request, res: Response) => {
   const { body } = req;
   try {
     const isWeb = body.web === 'true' ? true : false;
@@ -61,7 +62,7 @@ prodCtrl.addProduct = async (req, res) => {
   }
 };
 
-prodCtrl.updateProductById = async (req, res) => {
+prodCtrl.updateProductById = async (req: Request, res: Response) => {
   const {
     params: { id },
     body,
@@ -82,7 +83,7 @@ prodCtrl.updateProductById = async (req, res) => {
   }
 };
 
-prodCtrl.removeProductById = async (req, res) => {
+prodCtrl.removeProductById = async (req: Request, res: Response) => {
   const {
     params: { id },
   } = req;
@@ -102,17 +103,17 @@ prodCtrl.removeProductById = async (req, res) => {
   }
 };
 
-prodCtrl.getView = async (req, res) => {
+prodCtrl.getView = async (req: Request, res: Response) => {
   let products = await PRODUCTS.getProducts();
 
   res.render('products', { products });
 };
 
-prodCtrl.addProductView = (req, res) => {
+prodCtrl.addProductView = (req: Request, res: Response) => {
   res.render('addProduct');
 };
 
-prodCtrl.addProductViewWs = async (req, res) => {
+prodCtrl.addProductViewWs = async (req: Request, res: Response) => {
   let products = await PRODUCTS.getProducts();
 
   res.render('addProductWithSockets', { products });

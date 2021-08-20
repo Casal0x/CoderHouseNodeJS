@@ -7,8 +7,8 @@ import {
 import { formatMessages } from '../utils/formatMessage';
 
 const data = {
-  email: undefined,
-  text: undefined,
+  email: '',
+  text: '',
 };
 
 const BOT_NAME = 'CoderHouse-BOT';
@@ -17,7 +17,7 @@ export const initChat = (io) => {
   io.on('connection', (socket) => {
     socket.on('joinRoom', (msg) => {
       addUser(socket.client.id, msg.email, msg.room);
-      const user = getCurrentUser(socket.client.id);
+      const user: any = getCurrentUser(socket.client.id);
 
       socket.join(user.room);
 
@@ -38,17 +38,17 @@ export const initChat = (io) => {
     });
 
     socket.on('chatMessage', (msg) => {
-      const user = getCurrentUser(socket.client.id);
+      const user: any = getCurrentUser(socket.client.id);
       data.email = user.email;
       data.text = msg;
       io.to(user.room).emit('message', formatMessages(data));
     });
 
     socket.on('disconnect-web', () => {
-      const user = getCurrentUser(socket.client.id);
+      const user: any = getCurrentUser(socket.client.id);
       if (user) {
         removeUser(socket.client.id);
-        data.username = BOT_NAME;
+        data.email = BOT_NAME;
         data.text = `<b>${user.email}</b> salio del chat.`;
         io.to(user.room).emit(
           'message',
@@ -64,10 +64,10 @@ export const initChat = (io) => {
     });
 
     socket.on('disconnect', () => {
-      const user = getCurrentUser(socket.client.id);
+      const user: any = getCurrentUser(socket.client.id);
       if (user) {
         removeUser(socket.client.id);
-        data.username = BOT_NAME;
+        data.email = BOT_NAME;
         data.text = `<b>${user.email}</b> salio del chat.`;
         io.to(user.room).emit(
           'message',

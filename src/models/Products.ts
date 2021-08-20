@@ -1,4 +1,7 @@
 class Products {
+  products: Array<any>;
+  id: number;
+
   constructor(products = []) {
     this.products = products;
     this.id = this.products.length;
@@ -16,12 +19,12 @@ class Products {
     return product;
   }
 
-  getProductById(id) {
+  getProductById(id: number) {
     const product = this.products.find((prod) => prod.id === id);
     return product ? product : null;
   }
 
-  updateProduct(id, data) {
+  updateProduct(id: number, data) {
     let product = this.products.find((prod) => prod.id === id);
     if (!product) return null;
     const filteredProducts = this.products.filter((prod) => prod.id !== id);
@@ -32,7 +35,7 @@ class Products {
     return product;
   }
 
-  removeProduct(id) {
+  removeProduct(id: number) {
     let product = this.products.find((prod) => prod.id === id);
     if (!product) return null;
     this.products = this.products.filter((prod) => prod.id !== id);

@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
-import io from 'socket.io';
+import { Server } from 'socket.io';
 import path from 'path';
 import routes from './routes';
 import { initChat } from './models/Chat';
@@ -15,15 +15,15 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../views'));
 
-const myServer = http.Server(app);
-const myWSServer = io(myServer);
+const myServer = new http.Server(app);
+const myWSServer = new Server(myServer);
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next) => {
   req.io = myWSServer;
   next();
 });
 
-app.get('/', (req, res) => res.render('home'));
+app.get('/', (req: Request, res: Response) => res.render('home'));
 
 app.use(routes);
 
