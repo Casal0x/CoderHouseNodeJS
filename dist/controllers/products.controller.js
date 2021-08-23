@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Products_1 = __importDefault(require("../models/Products"));
 var prodCtrl = {};
-var PRODUCTS = new Products_1.default([]);
+var PRODUCTS = new Products_1.default();
 prodCtrl.getProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var products, error_1;
     return __generator(this, function (_a) {
@@ -51,7 +51,7 @@ prodCtrl.getProducts = function (req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, PRODUCTS.getProducts()];
             case 1:
                 products = _a.sent();
-                if (products.length === 0) {
+                if (products && products.length === 0) {
                     throw new Error('no hay productos cargados');
                 }
                 res.json(products);
@@ -65,130 +65,114 @@ prodCtrl.getProducts = function (req, res) { return __awaiter(void 0, void 0, vo
     });
 }); };
 prodCtrl.getProductById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, parsedId, product;
+    var id, parsedId, product, error_2;
     return __generator(this, function (_a) {
-        id = req.params.id;
-        parsedId = Number(id);
-        try {
-            if (typeof parsedId !== 'number') {
-                throw new Error('El ID debe ser un numero.');
-            }
-            product = PRODUCTS.getProductById(parsedId);
-            if (!product) {
-                throw new Error('producto no encontrado');
-            }
-            res.json(product);
+        switch (_a.label) {
+            case 0:
+                id = req.params.id;
+                parsedId = Number(id);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                if (isNaN(parsedId)) {
+                    throw new Error('El ID debe ser un numero.');
+                }
+                return [4 /*yield*/, PRODUCTS.getProductById(parsedId)];
+            case 2:
+                product = _a.sent();
+                if (!product) {
+                    throw new Error('producto no encontrado');
+                }
+                res.json(product);
+                return [3 /*break*/, 4];
+            case 3:
+                error_2 = _a.sent();
+                res.json({ error: error_2.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
-        catch (error) {
-            res.json({ error: error.message });
-        }
-        return [2 /*return*/];
     });
 }); };
 prodCtrl.addProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var body, isWeb, product, products, error_2;
+    var body, product, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 body = req.body;
                 _a.label = 1;
             case 1:
-                _a.trys.push([1, 7, , 8]);
-                isWeb = body.web === 'true' ? true : false;
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, PRODUCTS.addProduct(body)];
             case 2:
                 product = _a.sent();
                 if (!product) {
                     throw new Error('producto no encontrado');
                 }
-                if (!isWeb) return [3 /*break*/, 3];
-                res.render('addProduct');
-                return [3 /*break*/, 6];
-            case 3:
-                if (!body.ws) return [3 /*break*/, 5];
-                return [4 /*yield*/, PRODUCTS.getProducts()];
-            case 4:
-                products = _a.sent();
-                req.io.emit('products', products);
-                _a.label = 5;
-            case 5:
                 res.json(product);
-                _a.label = 6;
-            case 6: return [3 /*break*/, 8];
-            case 7:
-                error_2 = _a.sent();
-                res.json({ error: error_2.message });
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                error_3 = _a.sent();
+                res.json({ error: error_3.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 prodCtrl.updateProductById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, body, parsedId, updatedProduct;
+    var id, body, parsedId, updatedProduct, error_4;
     return __generator(this, function (_a) {
-        id = req.params.id, body = req.body;
-        parsedId = Number(id);
-        try {
-            if (typeof parsedId !== 'number') {
-                throw new Error('El ID debe ser un numero.');
-            }
-            updatedProduct = PRODUCTS.updateProduct(parsedId, body);
-            if (!updatedProduct) {
-                throw new Error('producto no encontrado');
-            }
-            res.json(updatedProduct);
+        switch (_a.label) {
+            case 0:
+                id = req.params.id, body = req.body;
+                parsedId = Number(id);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                if (isNaN(parsedId)) {
+                    throw new Error('El ID debe ser un numero.');
+                }
+                return [4 /*yield*/, PRODUCTS.updateProduct(parsedId, body)];
+            case 2:
+                updatedProduct = _a.sent();
+                if (!updatedProduct) {
+                    throw new Error('producto no encontrado');
+                }
+                res.json(updatedProduct);
+                return [3 /*break*/, 4];
+            case 3:
+                error_4 = _a.sent();
+                res.json({ error: error_4.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
-        catch (error) {
-            res.json({ error: error.message });
-        }
-        return [2 /*return*/];
     });
 }); };
 prodCtrl.removeProductById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, parsedId, updatedProduct;
-    return __generator(this, function (_a) {
-        id = req.params.id;
-        parsedId = Number(id);
-        try {
-            if (typeof parsedId !== 'number') {
-                throw new Error('El ID debe ser un numero.');
-            }
-            updatedProduct = PRODUCTS.removeProduct(parsedId);
-            if (!updatedProduct) {
-                throw new Error('producto no encontrado');
-            }
-            res.json(updatedProduct);
-        }
-        catch (error) {
-            res.json({ error: error.message });
-        }
-        return [2 /*return*/];
-    });
-}); };
-prodCtrl.getView = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var id, parsedId, removedProduct, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, PRODUCTS.getProducts()];
+            case 0:
+                id = req.params.id;
+                parsedId = Number(id);
+                _a.label = 1;
             case 1:
-                products = _a.sent();
-                res.render('products', { products: products });
-                return [2 /*return*/];
-        }
-    });
-}); };
-prodCtrl.addProductView = function (req, res) {
-    res.render('addProduct');
-};
-prodCtrl.addProductViewWs = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, PRODUCTS.getProducts()];
-            case 1:
-                products = _a.sent();
-                res.render('addProductWithSockets', { products: products });
-                return [2 /*return*/];
+                _a.trys.push([1, 3, , 4]);
+                if (isNaN(parsedId)) {
+                    throw new Error('El ID debe ser un numero.');
+                }
+                return [4 /*yield*/, PRODUCTS.removeProduct(parsedId)];
+            case 2:
+                removedProduct = _a.sent();
+                if (!removedProduct) {
+                    throw new Error('producto no encontrado');
+                }
+                res.json(removedProduct);
+                return [3 /*break*/, 4];
+            case 3:
+                error_5 = _a.sent();
+                res.json({ error: error_5.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

@@ -1,18 +1,14 @@
-import { Router } from 'express';
-import prodCtrl from '../controllers/products.controller';
+import { Router, Request, Response } from 'express';
 import ProductRoutes from './products';
+import CartRoutes from './cart';
 
 const router = Router();
 
 router.use('/api/productos', ProductRoutes);
+router.use('/api/carrito', CartRoutes);
 
-// Web Routes
-router.get('/productos/vista', prodCtrl.getView);
-router.get('/productos/guardar', prodCtrl.addProductView);
-router.get('/productos/guardarWs', prodCtrl.addProductViewWs);
-
-router.get('/chat', (req, res) => {
-  res.render('chat');
-});
+router.use('*', (req: Request, res: Response) =>
+  res.status(404).json({ notFound: 'Error 404, ruta no encontrada.' })
+);
 
 export default router;
