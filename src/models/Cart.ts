@@ -1,3 +1,4 @@
+import { IProduct, IProductCart } from '../Interfaces/interfaces';
 import { DB_PATH } from '../utils/constants';
 import { fileCreation, getDbData, writeDbData } from '../utils/fileCheck';
 
@@ -48,7 +49,16 @@ class Cart {
         const product = data.productos.find((cart) => cart.id === idProduct);
         const filteredCart = data.carritos.filter((cart) => cart.id === idCart);
         if (product && cart) {
-          cart.productos.push(product);
+          const cartProduct = cart.productos.find(prod => prod.id === product.id);
+          const filteredCartProduct = cart.productos.filter(prod => prod.id === product.id);
+          if(cartProduct) {
+            cartProduct.quantity = cartProduct.quantity ? cartProduct.quantity + 1 : 0;
+            filteredCartProduct.push(cartProduct);
+          } else {
+            const productWithQuantity: IProductCart = product;
+            productWithQuantity.quantity = 1;
+            cart.productos.push(productWithQuantity);
+          }
           filteredCart.push(cart);
           data.carritos = filteredCart;
           await writeDbData(DB_PATH, data);

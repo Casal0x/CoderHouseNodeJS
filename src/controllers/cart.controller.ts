@@ -38,7 +38,25 @@ cartCtrl.getCartByID = async (req: Request, res: Response) => {
   }
 };
 
-cartCtrl.addProductByID = async (req: Request, res: Response) => {};
+cartCtrl.addProductByID = async (req: Request, res: Response) => {
+  try {
+    const { id_producto } = req.params;
+    const parsedId = Number(id_producto);
+    if (isNaN(parsedId)) {
+      throw new Error('El ID debe ser un numero.');
+    }
+
+    const cart = await Cart.addProductToCartByIDs(0, parsedId);
+
+    if (!cart) {
+      throw new Error('Producto no encontrado.');
+    }
+
+    res.json(cart);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};
 
 cartCtrl.addProductByIDAndCartID = async (req: Request, res: Response) => {};
 
