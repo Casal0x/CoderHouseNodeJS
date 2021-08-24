@@ -1,6 +1,6 @@
-import { IProduct, IProductCart } from '../Interfaces/interfaces';
+import { IProductCart } from '../Interfaces/interfaces';
 import { DB_PATH } from '../utils/constants';
-import { fileCreation, getDbData, writeDbData } from '../utils/fileCheck';
+import { getDbData, writeDbData } from '../utils/fileCheck';
 
 class Cart {
   id: number = 0;
