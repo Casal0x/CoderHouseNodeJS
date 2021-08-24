@@ -9,11 +9,6 @@ router.get('/listar/:id', CartController.getCartByID);
 
 router.put('/agregar/:id_producto', CartController.addProductByID);
 
-router.put(
-  '/agregar',
-  CartController.addProductByIDAndCartID
-);
-
 router.delete('/borrar/:id', CartController.removeProductByID);
 
 export default router;

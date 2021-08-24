@@ -58,8 +58,24 @@ cartCtrl.addProductByID = async (req: Request, res: Response) => {
   }
 };
 
-cartCtrl.addProductByIDAndCartID = async (req: Request, res: Response) => {};
+cartCtrl.removeProductByID = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const parsedId = Number(id);
+    if (isNaN(parsedId)) {
+      throw new Error('El ID debe ser un numero.');
+    }
 
-cartCtrl.removeProductByID = async (req: Request, res: Response) => {};
+    const cart = await Cart.deleteCartByID(parsedId);
+
+    if (!cart) {
+      throw new Error('Carrito no encontrado.');
+    }
+
+    res.json(cart);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};
 
 export default cartCtrl;

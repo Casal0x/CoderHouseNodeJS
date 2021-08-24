@@ -22,6 +22,16 @@ export const fileCreation = async (path: string) => {
           timestamp: Date.now().toString(),
           productos: [],
         },
+        {
+          id: 2,
+          timestamp: Date.now().toString(),
+          productos: [],
+        },
+        {
+          id: 3,
+          timestamp: Date.now().toString(),
+          productos: [],
+        },
       ],
     };
     await fs.writeFile(path, JSON.stringify(data));

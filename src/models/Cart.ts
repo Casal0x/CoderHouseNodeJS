@@ -49,10 +49,16 @@ class Cart {
         const product = data.productos.find((cart) => cart.id === idProduct);
         const filteredCart = data.carritos.filter((cart) => cart.id === idCart);
         if (product && cart) {
-          const cartProduct = cart.productos.find(prod => prod.id === product.id);
-          const filteredCartProduct = cart.productos.filter(prod => prod.id === product.id);
-          if(cartProduct) {
-            cartProduct.quantity = cartProduct.quantity ? cartProduct.quantity + 1 : 0;
+          const cartProduct = cart.productos.find(
+            (prod) => prod.id === product.id
+          );
+          const filteredCartProduct = cart.productos.filter(
+            (prod) => prod.id === product.id
+          );
+          if (cartProduct) {
+            cartProduct.quantity = cartProduct.quantity
+              ? cartProduct.quantity + 1
+              : 0;
             filteredCartProduct.push(cartProduct);
           } else {
             const productWithQuantity: IProductCart = product;
@@ -75,11 +81,11 @@ class Cart {
     try {
       const data = await getDbData(DB_PATH);
       if (data) {
-        const cart = data.carritos.find((cart) => cart.id === id);
-        const filteredCart = data.carritos.filter((cart) => cart.id === id);
+        const cartRemoved = data.carritos.find((cart) => cart.id === id);
+        const filteredCart = data.carritos.filter((cart) => cart.id !== id);
         data.carritos = filteredCart;
         await writeDbData(DB_PATH, data);
-        return cart || null;
+        return cartRemoved || null;
       }
       return null;
     } catch (error) {
