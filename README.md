@@ -8,9 +8,10 @@
 
 ## Scripts
 
-- start: node build/index.js
-- dev: nodemon --exec babel-node src/index.js
-- build: babel src -d build
+- "start": "node dist/index.js"
+- "start:build": "npm run build && node dist/index.js"
+- "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
+- "build": "tsc"
 
 ## ENDPOINTS
 
