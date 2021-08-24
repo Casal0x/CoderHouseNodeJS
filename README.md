@@ -14,7 +14,17 @@
 
 ## ENDPOINTS
 
-- http://localhost:8080/productos/vista
-- http://localhost:8080/productos/guardar
-- http://localhost:8080/productos/guardarWS
-- http://localhost:8080/chat
+### Productos
+
+- http://localhost:8080/api/productos/listar
+- http://localhost:8080/api/productos/listar/:id
+- http://localhost:8080/api/productos/guardar
+- http://localhost:8080/api/productos/actualizar/:id
+- http://localhost:8080/api/productos/borrar/:id
+
+### Carrito
+
+- http://localhost:8080/api/carrito/listar
+- http://localhost:8080/api/carrito/listar/:id
+- http://localhost:8080/api/carrito/agregar/:id_producto
+- http://localhost:8080/api/carrito/borrar/:id
