@@ -1,3 +1,4 @@
+import { DBService } from '../services/db';
 import {
   addUser,
   getCurrentUser,
@@ -13,6 +14,15 @@ const data = {
 
 const BOT_NAME = 'CoderHouse-BOT';
 
+const getMessages = async (socket) => {
+  try {
+    const chatMessages = await DBService.get('mensajes');
+    socket.emit('initChat', chatMessages);
+  } catch (error) {
+    return [];
+  }
+};
+
 export const initChat = (io) => {
   io.on('connection', (socket) => {
     socket.on('joinRoom', (msg) => {
@@ -25,9 +35,13 @@ export const initChat = (io) => {
       data.text = 'Bienvenido al Centro de Mensajes!';
       socket.emit('message', formatMessages({ ...data, bot: true }));
 
+      getMessages(socket);
+
       data.text = `<b>${user.email}</b> se conecto al chat!`;
 
-      socket.broadcast.to(user.room).emit('message', formatMessages(data));
+      socket.broadcast
+        .to(user.room)
+        .emit('message', formatMessages({ ...data, bot: true }));
 
       //Send Room info
       const roomInfo = {
@@ -41,14 +55,16 @@ export const initChat = (io) => {
       const user = getCurrentUser(socket.client.id);
       data.email = user.email;
       data.text = msg;
-      io.to(user.room).emit('message', formatMessages(data));
+      DBService.create('mensajes', formatMessages(data)).then(() => {
+        io.to(user.room).emit('message', formatMessages(data));
+      });
     });
 
     socket.on('disconnect-web', () => {
       const user = getCurrentUser(socket.client.id);
       if (user) {
         removeUser(socket.client.id);
-        data.username = BOT_NAME;
+        data.email = BOT_NAME;
         data.text = `<b>${user.email}</b> salio del chat.`;
         io.to(user.room).emit(
           'message',
@@ -67,7 +83,7 @@ export const initChat = (io) => {
       const user = getCurrentUser(socket.client.id);
       if (user) {
         removeUser(socket.client.id);
-        data.username = BOT_NAME;
+        data.email = BOT_NAME;
         data.text = `<b>${user.email}</b> salio del chat.`;
         io.to(user.room).emit(
           'message',

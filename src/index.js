@@ -4,6 +4,7 @@ import io from 'socket.io';
 import path from 'path';
 import routes from './routes';
 import { initChat } from './models/Chat';
+import { DBService } from './services/db';
 
 const app = express();
 const port = 8080;
@@ -30,6 +31,8 @@ app.use(routes);
 const server = myServer.listen(port, () =>
   console.log(`🚀 Server ready at http://localhost:${port}`)
 );
+
+DBService.init();
 
 server.on('error', () => console.log('Error del servidor'));
 

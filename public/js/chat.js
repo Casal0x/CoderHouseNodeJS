@@ -41,6 +41,14 @@ socket.on('message', (data) => {
   chatBox.scrollTop = chatBox.scrollHeight;
 });
 
+socket.on('initChat', (data) => {
+  if (data.length) {
+    data.forEach((item) => {
+      addMessage(item);
+    });
+  }
+});
+
 function addMessage(data) {
   const message = `
     <div class="chat-message mb-2 ${data.bot ? 'bot-message' : ''}">
