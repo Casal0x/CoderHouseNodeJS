@@ -1,4 +1,3 @@
-import { DBService } from '../services/db';
 import {
   addUser,
   getCurrentUser,
@@ -6,6 +5,7 @@ import {
   removeUser,
 } from '../utils/chatUsers';
 import { formatMessages } from '../utils/formatMessage';
+import Mensajes from './Mensajes';
 
 const data = {
   email: undefined,
@@ -16,7 +16,7 @@ const BOT_NAME = 'CoderHouse-BOT';
 
 const getMessages = async (socket) => {
   try {
-    const chatMessages = await DBService.get('mensajes');
+    const chatMessages = await Mensajes.find();
     socket.emit('initChat', chatMessages);
   } catch (error) {
     return [];
@@ -51,13 +51,20 @@ export const initChat = (io) => {
       io.to(user.room).emit('roomUsers', roomInfo);
     });
 
-    socket.on('chatMessage', (msg) => {
+    socket.on('chatMessage', async (msg) => {
       const user = getCurrentUser(socket.client.id);
       data.email = user.email;
       data.text = msg;
-      DBService.create('mensajes', formatMessages(data)).then(() => {
-        io.to(user.room).emit('message', formatMessages(data));
-      });
+      try {
+        const mensaje = new Mensajes({
+          ...formatMessages(data),
+        });
+        await mensaje.save();
+
+        io.to(user.room).emit('message', mensaje);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     socket.on('disconnect-web', () => {

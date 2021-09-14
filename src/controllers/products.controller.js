@@ -1,17 +1,16 @@
-import Products from '../models/Products';
+import Products from '../models/Productos';
 
 const prodCtrl = {};
-const PRODUCTS = new Products([]);
 
 prodCtrl.getProducts = async (req, res) => {
   try {
-    const products = await PRODUCTS.getProducts();
+    const products = await Products.find();
 
     if (products.length === 0) {
       throw new Error('no hay productos cargados');
     }
 
-    res.json(products);
+    res.json({ products });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -26,13 +25,13 @@ prodCtrl.getProductById = async (req, res) => {
     if (typeof parsedId !== 'number') {
       throw new Error('El ID debe ser un numero.');
     }
-    const product = PRODUCTS.getProductById(parsedId);
+    const product = await Products.find({ id: parsedId });
     if (!product) {
       throw new Error('producto no encontrado');
     }
-
-    res.json(product);
+    res.json({ product });
   } catch (error) {
+    console.log(error);
     res.json({ error: error.message });
   }
 };
@@ -41,21 +40,37 @@ prodCtrl.addProduct = async (req, res) => {
   const { body } = req;
   try {
     const isWeb = body.web === 'true' ? true : false;
-    const product = await PRODUCTS.addProduct(body);
+    const WS = body.ws || false;
+
+    delete body.web;
+    delete body.ws;
+    delete body.admin;
+
+    const products = await Products.find();
+    const newId =
+      products.length > 0 ? products[products.length - 1].id + 1 : 1;
+
+    const product = new Products({
+      id: newId,
+      ...body,
+    });
+
+    await product.save();
 
     if (!product) {
-      throw new Error('producto no encontrado');
+      throw new Error('Error al guardar el producto');
     }
 
     if (isWeb) {
       res.render('addProduct');
     } else {
-      if (body.ws) {
-        const products = await PRODUCTS.getProducts();
+      if (WS) {
+        const products = await Products.find();
         req.io.emit('products', products);
       }
       res.json(product);
     }
+    res.json({ product });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -71,12 +86,16 @@ prodCtrl.updateProductById = async (req, res) => {
     if (typeof parsedId !== 'number') {
       throw new Error('El ID debe ser un numero.');
     }
-    const updatedProduct = PRODUCTS.updateProduct(parsedId, body);
+    const updatedProduct = await Products.findOneAndUpdate(
+      { id: parsedId },
+      body,
+      { new: true }
+    );
     if (!updatedProduct) {
       throw new Error('producto no encontrado');
     }
 
-    res.json(updatedProduct);
+    res.json({ updatedProduct });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -91,7 +110,7 @@ prodCtrl.removeProductById = async (req, res) => {
     if (typeof parsedId !== 'number') {
       throw new Error('El ID debe ser un numero.');
     }
-    const updatedProduct = PRODUCTS.removeProduct(parsedId);
+    const updatedProduct = await Products.findOneAndDelete({ id: parsedId });
     if (!updatedProduct) {
       throw new Error('producto no encontrado');
     }
@@ -103,9 +122,13 @@ prodCtrl.removeProductById = async (req, res) => {
 };
 
 prodCtrl.getView = async (req, res) => {
-  let products = await PRODUCTS.getProducts();
+  try {
+    const products = await Products.find();
 
-  res.render('products', { products });
+    res.render('products', { products });
+  } catch (error) {
+    res.render('products', { products: [] });
+  }
 };
 
 prodCtrl.addProductView = (req, res) => {
@@ -113,9 +136,13 @@ prodCtrl.addProductView = (req, res) => {
 };
 
 prodCtrl.addProductViewWs = async (req, res) => {
-  let products = await PRODUCTS.getProducts();
+  try {
+    const products = await Products.find();
 
-  res.render('addProductWithSockets', { products });
+    res.render('addProductWithSockets', { products });
+  } catch (error) {
+    res.render('addProductWithSockets', { products: [] });
+  }
 };
 
 export default prodCtrl;

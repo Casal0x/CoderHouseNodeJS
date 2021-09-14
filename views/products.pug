@@ -16,10 +16,10 @@ block content
           each item in products
             tr.product-item
               th(scope='row')=item.id
-              td=item.title
-              td=item.price
+              td=item.nombre
+              td=item.precio
               td
-                img(src=item.thumbnail, alt="", srcset="", class="product-img")
+                img(src=item.foto, alt="", srcset="", class="product-img")
         else
           tr
             th(scope='row') No hay productos.
