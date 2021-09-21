@@ -1,0 +1,12 @@
+[
+  {
+    "id": "8a0c",
+    "timestamp": 1631895712273,
+    "title": "Vac Covid",
+    "description": "Vacuna covid",
+    "code": "23FASE4323",
+    "price": 30,
+    "thumbnail": "http://randomimg.com",
+    "stock": 20
+  }
+]
