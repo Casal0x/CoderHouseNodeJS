@@ -5,6 +5,8 @@ const router = Router();
 
 router.get('/listar', ProductController.getProducts);
 
+router.get('/vista-test', ProductController.getProductsFaker);
+
 router.get('/listar/:id', ProductController.getProductById);
 
 router.post('/guardar', ProductController.addProduct);

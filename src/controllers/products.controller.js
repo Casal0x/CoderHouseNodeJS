@@ -1,3 +1,4 @@
+import faker from 'faker';
 import Products from '../models/Productos';
 
 const prodCtrl = {};
@@ -14,6 +15,34 @@ prodCtrl.getProducts = async (req, res) => {
   } catch (error) {
     res.json({ error: error.message });
   }
+};
+
+prodCtrl.getProductsFaker = (req, res) => {
+  const { cant } = req.query;
+  const products = [];
+  const quantity = Number(cant) || 0;
+
+  const fakerProducts = {
+    title: faker.commerce.productName(),
+    price: Number(faker.commerce.price()),
+    thumbnail: faker.image.technics(),
+  };
+
+  if (typeof quantity === 'number') {
+    if (quantity === 0) {
+      return res.status(404).json({ message: 'No hay productos.' });
+    } else {
+      for (let i = 0; i < quantity; i++) {
+        products.push(fakerProducts);
+      }
+      return res.json({ products });
+    }
+  }
+
+  for (let i = 0; i < 10; i++) {
+    products.push(fakerProducts);
+  }
+  return res.json({ products });
 };
 
 prodCtrl.getProductById = async (req, res) => {
