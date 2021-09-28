@@ -42,9 +42,20 @@ socket.on('message', (data) => {
 });
 
 socket.on('initChat', (data) => {
-  if (data.length) {
-    data.forEach((item) => {
-      addMessage(item);
+  const message = new normalizr.schema.Entity('mensaje', {
+    idAttribute: '_id',
+  });
+  const messageSchema = new normalizr.schema.Array(message);
+  const denormalizedData = normalizr.denormalize(
+    data.result,
+    messageSchema,
+    data.entities
+  );
+
+  console.log(denormalizedData);
+  if (denormalizedData.length) {
+    denormalizedData.forEach((item) => {
+      addMessage(item._doc);
     });
   }
 });

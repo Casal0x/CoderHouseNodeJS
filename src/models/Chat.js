@@ -5,6 +5,7 @@ import {
   removeUser,
 } from '../utils/chatUsers';
 import { formatMessages } from '../utils/formatMessage';
+import { normalize, schema } from 'normalizr';
 import Mensajes from './Mensajes';
 
 const data = {
@@ -13,11 +14,15 @@ const data = {
 };
 
 const BOT_NAME = 'CoderHouse-BOT';
+const message = new schema.Entity('mensaje', { idAttribute: '_id' });
+const logSchema = new schema.Array(message);
 
 const getMessages = async (socket) => {
   try {
     const chatMessages = await Mensajes.find();
-    socket.emit('initChat', chatMessages);
+    let normalized = normalize(chatMessages, logSchema);
+    console.log(chatMessages[0], normalized);
+    socket.emit('initChat', normalized);
   } catch (error) {
     return [];
   }
