@@ -28,6 +28,12 @@ html(lang="es")
                 a.nav-link(href='/productos/guardarWS') Agregar Producto WebSockets
               li.nav-item
                 a.nav-link(href='/chat') Chat
+            div.d-flex
+              if this.auth.islogged
+                a.btn.btn-primary(href='/logout') Log out
+              else
+                a.btn.btn-success(href='/login') Log in
+
     main.container.pt-4
       block content
 

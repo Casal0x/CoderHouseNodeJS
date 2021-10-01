@@ -4,6 +4,8 @@ import io from 'socket.io';
 import path from 'path';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import routes from './routes';
@@ -12,9 +14,26 @@ import { initChat } from './models/Chat';
 const app = express();
 const port = process.env.PORT || 8081;
 
+global.auth = {
+  islogged: false,
+  isTimedOut: false,
+  isDestroyed: false,
+  name: '',
+};
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../public')));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'secretin',
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    cookie: { maxAge: 1000 * 60 },
+  })
+);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../views'));
@@ -27,7 +46,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => res.render('home'));
+app.get('/', (req, res) => {
+  if (!req.session.name && global.auth.islogged) {
+    global.auth.islogged = false;
+    global.auth.isTimedOut = true;
+    global.auth.isTimedOut = false;
+    global.auth.nombre = '';
+  }
+  if (global.auth.isDestroyed) {
+    global.auth.name = ``;
+    global.auth.isDestroyed = false;
+  }
+  res.render('home', { auth: global.auth });
+});
 
 app.use(routes);
 

@@ -13,7 +13,7 @@ const data = {
   text: undefined,
 };
 
-const BOT_NAME = 'CoderHouse-BOT';
+const BOT_NAME = 'CoderHouse-BOT 😁';
 const message = new schema.Entity('mensaje', { idAttribute: '_id' });
 const logSchema = new schema.Array(message);
 

@@ -1,0 +1,10 @@
+extends layouts/main.pug
+
+block content
+  .login-page
+    h3.title.mb-3 Conectate!
+    form(method='POST' action='/api/auth/login')
+      .mb-3.col-5
+        label.form-label(for='username') Username
+        input#username.form-control(type='text' name="name" autocomplete="off")
+      button.btn.btn-primary(type='submit') Conectate!
