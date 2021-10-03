@@ -6,13 +6,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import routes from './routes';
 import { initChat } from './models/Chat';
+import { isLogged } from './middlewares/auth';
 
 const app = express();
 const port = process.env.PORT || 8081;
+const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 global.auth = {
   islogged: false,
@@ -27,13 +30,17 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 app.use(cookieParser());
 app.use(
   session({
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      mongoOptions: advancedOptions,
+    }),
     secret: process.env.SESSION_SECRET || 'secretin',
     resave: false,
     saveUninitialized: false,
-    rolling: true,
-    cookie: { maxAge: 1000 * 60 },
+    // cookie: { maxAge: 1000 * 60 },
   })
 );
+app.use(isLogged);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../views'));
@@ -47,35 +54,18 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  if (!req.session.name && global.auth.islogged) {
-    global.auth.islogged = false;
-    global.auth.isTimedOut = true;
-    global.auth.isTimedOut = false;
-    global.auth.nombre = '';
-  }
-  if (global.auth.isDestroyed) {
-    global.auth.name = ``;
-    global.auth.isDestroyed = false;
-  }
   res.render('home', { auth: global.auth });
 });
 
 app.use(routes);
 
-mongoose.connect(
-  process.env.MONGO_URI,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err) => {
-    if (err) return console.log('err => ', err);
-    console.log('Mongo DB Connected');
-    const server = myServer.listen(port, () =>
-      console.log(`🚀 Server ready at http://localhost:${port}`)
-    );
-    server.on('error', () => console.log('Error del servidor'));
-  }
-);
+mongoose.connect(process.env.MONGO_URI, advancedOptions, (err) => {
+  if (err) return console.log('err => ', err);
+  console.log('Mongo DB Connected');
+  const server = myServer.listen(port, () =>
+    console.log(`🚀 Server ready at http://localhost:${port}`)
+  );
+  server.on('error', () => console.log('Error del servidor'));
+});
 
 initChat(myWSServer);
