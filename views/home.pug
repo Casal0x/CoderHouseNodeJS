@@ -4,7 +4,7 @@ block content
   section.home-page.mb-4
     h3.mb-3 Home
     if this.auth.islogged
-      h4.mb-4=`Bienvenido ${this.auth.name}`
+      h4.mb-4.welcome-msg=`Bienvenido ${this.auth.name}`
     div
       h5 Links:
       ul

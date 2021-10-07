@@ -11,7 +11,8 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import routes from './routes';
 import { initChat } from './models/Chat';
-import { isLogged } from './middlewares/auth';
+import passport from './middlewares/auth';
+import { isLogged } from './middlewares/isLogged';
 
 const app = express();
 const port = process.env.PORT || 8081;
@@ -40,6 +41,9 @@ app.use(
     // cookie: { maxAge: 1000 * 60 },
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(isLogged);
 
 app.set('view engine', 'pug');

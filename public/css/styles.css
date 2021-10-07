@@ -70,3 +70,7 @@ a:hover {
 .chat-message .chat-message__text {
   margin: 5px;
 }
+
+.welcome-msg {
+  text-transform: capitalize;
+}
