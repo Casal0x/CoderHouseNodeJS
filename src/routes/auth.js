@@ -1,13 +1,31 @@
 import { Router } from 'express';
-import AuthController from '../controllers/auth.controller';
 import passport, { isLoggedIn } from '../middlewares/auth';
 
 const router = Router();
 
-router.post('/login', passport.authenticate('login'), AuthController.login);
-router.post('/signup', AuthController.signup);
+router.get('/profile', isLoggedIn, function (req, res) {
+  const user = req.user;
+  res.render('profile', {
+    user,
+  });
+});
 
-router.get('/user', isLoggedIn, AuthController.getUser);
-router.post('/user', isLoggedIn, AuthController.postUser);
+router.get(
+  '/facebook',
+  passport.authenticate('facebook', { scope: 'email,user_photos' })
+);
+
+router.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/api/profile',
+    failureRedirect: '/api',
+  })
+);
+
+router.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 export default router;
