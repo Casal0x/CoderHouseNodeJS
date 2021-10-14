@@ -1,23 +1,32 @@
 import { Router } from 'express';
-import prodCtrl from '../controllers/products.controller';
-import authCtrl from '../controllers/auth.controller';
-import ProductRoutes from './products';
-import AuthRoutes from './auth';
+import { isLoggedIn } from '../middleware/auth';
+import passport from '../middleware/auth';
 
 const router = Router();
 
-router.use('/api/productos', ProductRoutes);
-router.use('/api/auth', AuthRoutes);
+router.get('/profile', isLoggedIn, function (req, res) {
+  const user = req.user;
+  res.render('profile', {
+    user,
+  });
+});
 
-// Web Routes
-router.get('/productos/vista', prodCtrl.getView);
-router.get('/productos/guardar', prodCtrl.addProductView);
-router.get('/productos/guardarWs', prodCtrl.addProductViewWs);
-router.get('/login', authCtrl.loginView);
-router.get('/logout', authCtrl.logoutView);
+router.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', { scope: 'email,user_photos' })
+);
 
-router.get('/chat', (req, res) => {
-  res.render('chat');
+router.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/api/profile',
+    failureRedirect: '/api',
+  })
+);
+
+router.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
 });
 
 export default router;

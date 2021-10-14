@@ -1,9 +1,0 @@
-extends layouts/main.pug
-
-block content
-  .profile-facebook
-    h3 Facebook Profile
-    .wrapper
-      div=user.emails[0].value
-      div=user.displayName
-      img(src=`${user.photos[0].value}`, alt="", srcset="", width="200", height="200")
