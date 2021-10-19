@@ -1,16 +1,12 @@
 import passport from "passport";
 import Config from "../config";
+import minimist from "minimist";
 import { Strategy as FaceBookStrategy } from "passport-facebook";
 
-let args;
+const param = minimist(process.argv.slice(2));
 
-process.argv.forEach((val, index, array) => {
-  array.push([index + ": " + val]);
-  return (args = array);
-});
-
-if (args[3]) Config.FACEBOOK_ID = args[3];
-if (args[4]) Config.FACEBOOK_CLIENT_ID = args[4];
+if (param.fbu) Config.FACEBOOK_ID = param.fbu;
+if (param.fbc) Config.FACEBOOK_CLIENT_ID = param.fbc;
 
 const strategyOptions = {
   clientID: Config.FACEBOOK_ID,

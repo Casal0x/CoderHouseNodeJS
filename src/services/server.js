@@ -2,10 +2,26 @@ import express from "express";
 import passport from "../middleware/auth";
 import session from "express-session";
 import mainRouter from "../routes";
-import { fork } from "child_process";
-import path from "path";
+import os from "os";
+
+const numCPUs = os.cpus().length;
 
 const app = express();
+
+const getRandomInt = () => {
+  return Math.floor(Math.random() * (1000 - 1)) + 1;
+};
+
+export const calculo = (qty) => {
+  const salida = {};
+  for (let i = 0; i < qty; i++) {
+    const data = getRandomInt();
+
+    if (salida[data]) salida[data] += 1;
+    else salida[data] = 1;
+  }
+  return salida;
+};
 
 app.use(express.json());
 app.use(
@@ -39,20 +55,14 @@ app.get("/info", (req, res) => {
     Memoria: process.memoryUsage(),
     PID: process.pid,
     Argumentos: process.argv,
+    CPUs: numCPUs,
   });
 });
 
-const scriptPath = path.resolve(__dirname, "../utils/calculo.js");
-
 app.get("/randoms", (req, res) => {
   let qty = req.query.cant || 1000000000;
-
-  const process = fork(scriptPath);
-  process.send(qty);
-
-  process.on("message", (message) => {
-    res.json(message);
-  });
+  const message = calculo(qty);
+  res.json(message);
 });
 
 export default app;
