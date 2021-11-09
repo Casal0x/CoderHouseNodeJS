@@ -1,0 +1,37 @@
+html {
+  height: 100%;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.button {
+  padding: 1%;
+}
+
+.chatContainer {
+  padding: 5%;
+  background-color: #cbdfbd;
+  overflow-y: auto;
+  visibility: visible;
+}
+
+.chatMessage {
+  padding: 2%;
+}
+
+.chatemail {
+  color: blue;
+  font-weight: bold;
+}
+
+.chatmensaje {
+  color: green;
+  font-style: italic;
+}
+
+.chatfecha {
+  font-size: xx-small;
+}
