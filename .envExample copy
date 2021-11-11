@@ -1,0 +1,11 @@
+PORT=8080
+MONGO_URI=mongodb://coderhouse:test123@mongo.casalox.com:27017/ecommerce?authSource=admin
+SECRET=Sdsa#421fd@#!dsase_fd3
+GMAIL_EMAIL=email@gmail.com
+GMAIL_PASSWORD=clave
+GMAIL_NAME=Nombre
+TWILIO_ACCOUNT_ID=ID TWILIO
+TWILIO_TOKEN=TOKEN TWILIO
+TWILIO_CELLPHONE=Numero TWILIO
+ADMIN_EMAIL=email@gmail.com
+ADMIN_CEL=+celular
