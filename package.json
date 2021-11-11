@@ -4,8 +4,9 @@
   "description": "Proyecto Final curso nodejs",
   "main": "index.js",
   "scripts": {
-    "build": "node_modules/.bin/tsc",
-    "start": "npm run build && node dist/index.js --cluster",
+    "build": "./node_modules/.bin/tsc",
+    "start": "npm run build && node ./dist/index.js --cluster",
+    "start:yarn": "yarn build && node ./dist/index.js --cluster",
     "dev": "nodemon",
     "artillery": "artillery quick --count 50 -n 40 http://localhost:8080/api/productos/listar",
     "test": "echo \"Error: no test specified\" && exit 1"
