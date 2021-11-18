@@ -4,7 +4,8 @@ import cartRouter from './cart';
 import orderRouter from './order';
 import authRouter from './auth';
 import filesRouter from './files';
-import { EmailService } from '../services/email';
+import { graphqlHTTP } from 'express-graphql';
+import { graphqlSchema } from '../services/graphql';
 
 const router = Router();
 
@@ -13,6 +14,14 @@ router.get('/', (req, res) => {
     pid: process.pid,
   });
 });
+
+router.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: graphqlSchema,
+    graphiql: true,
+  })
+);
 
 router.use('/files', filesRouter);
 router.use('/productos', productsRouter);

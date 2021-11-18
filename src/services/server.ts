@@ -26,7 +26,11 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: process.env.NODE_ENV === 'dev' ? false : undefined,
+  })
+);
 app.use(morgan('dev'));
 app.use(cors());
 app.use(cookieParser());

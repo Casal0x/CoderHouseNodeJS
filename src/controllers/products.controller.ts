@@ -1,6 +1,15 @@
 // import 'regenerator-runtime/runtime';
 import { Request, Response } from 'express';
-import Products from '../models/Products';
+import Products, { ProductTC } from '../models/Products';
+
+export const ProductQuery = {
+  productById: ProductTC.getResolver('findById'),
+  productList: ProductTC.getResolver('findMany'),
+};
+
+export const ProductMutation = {
+  productCreateOne: ProductTC.getResolver('createOne'),
+};
 
 class ProductController {
   async getProducts(req: Request, res: Response) {

@@ -1,3 +1,4 @@
+import { composeWithMongoose } from 'graphql-compose-mongoose';
 import { Schema, model } from 'mongoose';
 import { IProducts } from '../interfaces/products.interface';
 
@@ -18,4 +19,6 @@ const productsSchema = new Schema<IProducts>(
   { versionKey: false }
 );
 
-export default model('product', productsSchema);
+const ProductModel = model('product', productsSchema);
+export default ProductModel;
+export const ProductTC = composeWithMongoose(ProductModel);
