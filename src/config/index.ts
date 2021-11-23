@@ -4,6 +4,8 @@ dotenv.config();
 
 export default {
   PORT: process.env.PORT || 8080,
+  NODE_ENV: process.env.NODE_ENV || 'dev',
+  DB_TYPE: process.env.DB_TYPE || 'mongo-local',
   MONGO_URI: process.env.MONGO_URI || 'http://localhost:27017',
   SECRET: process.env.SECRET || 'SECRET1',
   GMAIL_EMAIL: process.env.GMAIL_EMAIL || 'email@gmail.com',

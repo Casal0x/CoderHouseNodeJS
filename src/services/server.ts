@@ -10,17 +10,37 @@ import mainRouter from '../routes';
 import config from '../config';
 import passport from '../middlewares/passportAuth';
 import path from 'path';
+import { initDB } from './database';
 
 const app = express();
 
+// app.use(
+//   session({
+//     store: MongoStore.create({
+//       mongoUrl: config.MONGO_URI,
+//     }),
+//     secret: config.SECRET,
+//     resave: true,
+//     saveUninitialized: true,
+//   })
+// );
+
 app.use(
   session({
-    store: MongoStore.create({
-      mongoUrl: config.MONGO_URI,
-    }),
     secret: config.SECRET,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    rolling: true,
+    store: MongoStore.create({
+      clientPromise: initDB(),
+      stringify: false,
+      autoRemove: 'interval',
+      autoRemoveInterval: 1,
+    }),
+    cookie: {
+      maxAge: 20 * 1000 * 60,
+      httpOnly: false,
+    },
   })
 );
 

@@ -4,12 +4,15 @@
   "description": "Proyecto Final curso nodejs",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "start": "npm run build && node ./dist/index.js --cluster",
-    "start:yarn": "yarn build && node ./dist/index.js --cluster",
+    "build": "node_modules/.bin/tsc",
+    "start": "npm run build && node dist/index.js --cluster",
+    "start:yarn": "yarn build && node dist/index.js --cluster",
+    "start:fork": "yarn build && node dist/index.js",
     "dev": "nodemon",
     "artillery": "artillery quick --count 50 -n 40 -o ./reports/report.json http://localhost:8080/api/productos/listar",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --NODE_ENV=test --detectOpenHandles",
+    "test:async": "NODE_ENV=test jest --detectOpenHandles",
+    "test:watch": "NODE_ENV=test jest --watch"
   },
   "engines": {
     "node": ">=0.12"
@@ -26,18 +29,23 @@
   "homepage": "https://github.com/casal0x/proyectofinal#readme",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/chai": "^4.2.22",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
     "@types/minimist": "^1.2.2",
+    "@types/mocha": "^9.0.0",
     "@types/morgan": "^1.9.3",
     "@types/multer": "^1.4.7",
     "@types/node": "^16.11.1",
     "@types/nodemailer": "^6.4.4",
     "@types/passport": "^1.0.7",
     "@types/passport-local": "^1.0.34",
+    "@types/supertest": "^2.0.11",
+    "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
+    "chai": "^4.3.4",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -49,8 +57,12 @@
     "graphql-compose": "^9.0.4",
     "graphql-compose-mongoose": "^9.7.0",
     "helmet": "^4.6.0",
+    "jest": "^27.3.1",
     "log4js": "^6.3.0",
     "minimist": "^1.2.5",
+    "mocha": "^9.1.3",
+    "mongodb": "^4.2.0",
+    "mongodb-memory-server-core": "^8.0.2",
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
@@ -58,8 +70,13 @@
     "nodemon": "^2.0.12",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
+    "supertest": "^6.1.6",
+    "ts-jest": "^27.0.7",
     "ts-node": "^10.2.1",
     "twilio": "^3.71.1",
     "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3"
   }
 }
