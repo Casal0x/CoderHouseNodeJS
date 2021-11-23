@@ -41,7 +41,7 @@ const getMongoUrl = async (type: string): Promise<string> => {
   }
 };
 
-export const initDB = async (): Promise<MongoClient> => {
+export const initDB = async () => {
   const mongoUrl = await getMongoUrl(config.DB_TYPE);
   return mongoose.connect(mongoUrl).then((m) => {
     logger.info('Base de datos mongo conectada');

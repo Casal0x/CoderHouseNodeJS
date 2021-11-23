@@ -32,7 +32,7 @@ app.use(
     saveUninitialized: false,
     rolling: true,
     store: MongoStore.create({
-      clientPromise: initDB(),
+      mongoUrl: config.MONGO_URI,
       stringify: false,
       autoRemove: 'interval',
       autoRemoveInterval: 1,
