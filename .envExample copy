@@ -1,4 +1,6 @@
 PORT=8080
+NODE_ENV=dev
+DB_TYPE=mongo-atlas
 MONGO_URI=mongodb+srv://coderhouse:test123@cluster1.wcw7h.mongodb.net/ecommerce?retryWrites=true&w=majority
 SECRET=Sdsa#421fd@#!dsase_fd3
 GMAIL_EMAIL=email@gmail.com
