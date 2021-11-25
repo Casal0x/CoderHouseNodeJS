@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -16,4 +17,5 @@ export default {
   TWILIO_CELLPHONE: process.env.TWILIO_CELLPHONE || '+123456789',
   ADMIN_EMAIL: process.env.ADMIN_EMAIL || 'email@email.com',
   ADMIN_CEL: process.env.ADMIN_CEL || '',
+  DB_PATH: path.join(__dirname, '../../db/db.json'),
 };

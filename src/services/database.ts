@@ -2,18 +2,7 @@
 import config from '../config';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server-core';
-import { MongoClient } from 'mongodb';
 import { logger } from '../utils/logger';
-
-// export const initDB = async () => {
-//   try {
-//     const connection = await mongoose.connect(config.MONGO_URI);
-//     logger.info('MongoDB is connected');
-//     return connection;
-//   } catch (error) {
-//     logger.error(error);
-//   }
-// };
 
 export interface Global extends NodeJS.Global {
   __MONGOINSTANCE__: MongoMemoryServer;

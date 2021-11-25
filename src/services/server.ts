@@ -10,20 +10,10 @@ import mainRouter from '../routes';
 import config from '../config';
 import passport from '../middlewares/passportAuth';
 import path from 'path';
-import { initDB } from './database';
+import fs from 'fs';
+import Config from '../config';
 
 const app = express();
-
-// app.use(
-//   session({
-//     store: MongoStore.create({
-//       mongoUrl: config.MONGO_URI,
-//     }),
-//     secret: config.SECRET,
-//     resave: true,
-//     saveUninitialized: true,
-//   })
-// );
 
 app.use(
   session({
@@ -57,6 +47,18 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+if (!fs.existsSync(Config.DB_PATH)) {
+  fs.writeFileSync(
+    Config.DB_PATH,
+    JSON.stringify({
+      products: [],
+      carts: [],
+      orders: [],
+      users: [],
+    })
+  );
+}
 
 // app.use((req, res, next) => {
 //   req.user = req.user as IUser;
