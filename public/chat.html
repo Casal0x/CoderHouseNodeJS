@@ -8,11 +8,19 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <link href="indexpage.css" type="text/css"  rel="stylesheet">
+    <link href="../chat.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Hola!</h1>
+    <div class="chatContainer">
+        <form id="message_area" action="">
+            <input id="text_area" autocomplete="off" />
+            <button>Send</button>
+        </form>
+        <ul id="message_list"></ul>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../chat.js"></script>
 </body>
 
 </html>
